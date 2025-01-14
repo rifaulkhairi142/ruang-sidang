@@ -377,7 +377,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                                 }`}
                                             >
                                                 <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                                                    {/* <li>
+                                                    <li>
                                                         <NavLink
                                                             href="/admin/rooms/waktu"
                                                             className={({
@@ -390,7 +390,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                                         >
                                                             Waktu
                                                         </NavLink>
-                                                    </li> */}
+                                                    </li>
                                                     <li>
                                                         <NavLink
                                                             href="/admin/rooms"
@@ -417,7 +417,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                                                     "text-white")
                                                             }`}
                                                         >
-                                                            Revervasi
+                                                            Reservasi
                                                         </NavLink>
                                                     </li>
                                                 </ul>
@@ -498,6 +498,21 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                                                             }`}
                                                         >
                                                             Students
+                                                        </NavLink>
+                                                    </li>
+                                                    <li>
+                                                        <NavLink
+                                                            href="/admin/users/operator-prodi"
+                                                            className={`group relative flex items-center gap-2.5 rounded-md px-4 font-medium duration-300 ease-in-out hover:text-white ${
+                                                                pathname ===
+                                                                    "/admin/users/operator-prodi" ||
+                                                                (pathname.includes(
+                                                                    "operator-prodi"
+                                                                ) &&
+                                                                    "text-white")
+                                                            }`}
+                                                        >
+                                                            Operator Prodi
                                                         </NavLink>
                                                     </li>
                                                 </ul>

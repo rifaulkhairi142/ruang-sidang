@@ -15,7 +15,7 @@ export default function GuestLayout({ children }) {
                     </Link>
                 </div>
 
-                <div className="mt-6 w-fit bg-white px-6 py-4 shadow-md  sm:rounded-lg">
+                <div className="mt-6 w-fit bg-white px-6 py-4 shadow-md max-w-96  sm:rounded-lg">
                     {children}
                 </div>
             </div>

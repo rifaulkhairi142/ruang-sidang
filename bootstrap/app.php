@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\Diterima;
+use App\Http\Middleware\OPTProdiMiddleware;
 use App\Http\Middleware\Student;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -24,6 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => Admin::class,
             'student' => Student::class,
             'diterima' => Diterima::class,
+            'opt_prodi' => OPTProdiMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

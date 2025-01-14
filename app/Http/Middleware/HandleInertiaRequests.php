@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\AdminProdi;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -33,6 +34,12 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'user_data' => fn() => $request->user() && $request->user()->role === 'opt_prodi'
+                    ? AdminProdi::where('email', $request->user()->email)
+                    ->join('prodi_tbl as prd_tbl', 'opt_prodi_tbl.id_prodi', '=', 'prd_tbl.id')
+                    ->select('prd_tbl.kode')
+                    ->first()
+                    : null,
             ],
         ];
     }

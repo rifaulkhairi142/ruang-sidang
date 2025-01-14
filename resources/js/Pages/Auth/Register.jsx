@@ -4,6 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
     FormControl,
+    IconButton,
     InputAdornment,
     InputLabel,
     OutlinedInput,
@@ -51,7 +52,7 @@ export default function Register({ flash }) {
             <Head title="Register" />
 
             <div className="flex w-full justify-center items-center flex-col">
-                <div className="flex w-full max-w-[500px] mb-3 items-start justify-start">
+                <div className="flex w-full max-w-96 mb-3 items-start justify-start">
                     <img
                         className="w-28 cursor-pointer "
                         src="https://upload.wikimedia.org/wikipedia/commons/a/af/Lambang_UIN_Ar-Raniry.png"
@@ -59,7 +60,7 @@ export default function Register({ flash }) {
                 </div>
                 <form
                     onSubmit={submit}
-                    className="min-w-[500px] bg-white shadow-md  rounded-md p-4 max-w-min"
+                    className="min-w-96 bg-white shadow-md  rounded-md p-4 max-w-min"
                 >
                     <div>
                         <h1 className="text-2xl text-black-2 font-bold mb-6">

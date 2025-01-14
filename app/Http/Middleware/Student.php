@@ -16,6 +16,9 @@ class Student
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->user()->role != 'student') {
+            if ($request->user()->role == 'opt_prodi') {
+                return redirect('/operator-prodi/dashboard');
+            }
             return redirect('/admin/dashboard');
         }
         return $next($request);

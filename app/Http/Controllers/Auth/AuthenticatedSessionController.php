@@ -33,6 +33,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
         if ($request->user()->role != 'student') {
+            if ($request->user()->role == 'opt_prodi') {
+                return redirect('operator-prodi/dashboard');
+            }
             return redirect('admin/dashboard');
         }
 

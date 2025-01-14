@@ -16,6 +16,9 @@ class Admin
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->user()->role != 'admin') {
+            if ($request->user()->role == 'opt_prodi') {
+                return redirect('/operator-prodi/dashboard');
+            }
             return redirect('/');
         }
         return $next($request);

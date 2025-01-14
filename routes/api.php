@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminProdiController;
 use App\Http\Controllers\Admin\DosenController;
 use App\Http\Controllers\Admin\ProdiController;
 use App\Http\Controllers\Admin\ReservasiController;
@@ -11,7 +12,7 @@ use App\Http\Controllers\Students\HomeController;
 use App\Http\Controllers\Students\ProfileController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\Dashboard;
-
+use App\Http\Controllers\OperatorProdi\BookingController as OperatorProdiBookingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
@@ -34,3 +35,10 @@ Route::post('/booking/proceed', [BookingController::class, 'booking']);
 Route::post('/profile/update', [ProfileController::class, 'update']);
 Route::get('/profile', [ProfileController::class, 'view']);
 Route::get('/data/booking', [HomeController::class, 'all']);
+
+Route::get('/admin/users/operator-prodi', [AdminProdiController::class, 'all']);
+Route::post('/admin/users/operator-prodi/delete/{id}', [AdminProdiController::class, 'delete']);
+Route::post('/operator-prodi/booking/proceed', [OperatorProdiBookingController::class, 'booking']);
+Route::get('/operator-prodi/rooms/reservasi', [OperatorProdiBookingController::class, 'all']);
+Route::post('/operator-prodi/rooms/reservasi/delete/{id}', [OperatorProdiBookingController::class, 'delete']);
+Route::get('/operator-prodi/info', [AdminProdiController::class, 'info']);

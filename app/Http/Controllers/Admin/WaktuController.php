@@ -18,7 +18,7 @@ class WaktuController extends Controller
 
     public function all()
     {
-        $data_waktu = WaktuModel::all();
+        $data_waktu = WaktuModel::paginate(10);
         return response()->json($data_waktu);
     }
 

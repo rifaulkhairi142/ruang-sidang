@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminProdiController;
 use App\Http\Controllers\Admin\Dashboard;
 use App\Http\Controllers\Admin\DosenController;
 use App\Http\Controllers\Admin\ProdiController;
@@ -7,6 +8,8 @@ use App\Http\Controllers\Admin\ReservasiController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\WaktuController;
+use App\Http\Controllers\OperatorProdi\BookingController as OperatorProdiBookingController;
+use App\Http\Controllers\OperatorProdi\DashboardController;
 use App\Http\Controllers\Students\ProfileController;
 use App\Http\Controllers\Students\BookingController;
 use App\Http\Controllers\Students\HistoryController;
@@ -23,6 +26,8 @@ Route::get('/history', [HistoryController::class, 'index'])->middleware(['auth',
 Route::post('/history/pesanan/delete/{id}', [HistoryController::class, 'delete']);
 Route::get('/profile', [ProfileController::class, 'index'])->middleware(['auth', 'verified', 'student'])->name('student.profile');
 
+
+// ADMIN
 
 Route::get('/admin/rooms', [RoomController::class, 'index'])->middleware(['auth', 'admin'])->name('admin.rooms');
 Route::get('/admin/rooms/add', [RoomController::class, 'add'])->middleware(['auth', 'admin'])->name('admin.rooms.add');
@@ -56,6 +61,12 @@ Route::get('/admin/rooms/reservasi/detail/{id}', [ReservasiController::class, 'd
 Route::get('/admin/users/student', [StudentController::class, 'index'])->middleware(['auth', 'admin']);
 Route::get('/admin/users/student/edit/{id}', [StudentController::class, 'edit'])->middleware(['auth', 'admin']);
 Route::post('/admin/users/student/update/{id}', [StudentController::class, 'update'])->middleware(['auth', 'admin']);
+
+Route::get('/admin/users/operator-prodi', [AdminProdiController::class, 'index']);
+Route::get('/admin/users/operator-prodi/add', [AdminProdiController::class, 'add']);
+Route::post("/admin/users/operator-prodi/save", [AdminProdiController::class, 'save']);
+
+
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -64,5 +75,12 @@ Route::post('/admin/users/student/update/{id}', [StudentController::class, 'upda
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
+
+// ======================Operator Prodi====================
+Route::get('/operator-prodi/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'opt_prodi']);
+Route::get('/operator-prodi/rooms/reservasi/add', [OperatorProdiBookingController::class, 'add'])->middleware(['auth', 'opt_prodi']);
+Route::get('/operator-prodi/rooms/reservasi', [OperatorProdiBookingController::class, 'index'])->middleware(['auth', 'opt_prodi']);
+Route::get('/operator-prodi/rooms/reservasi/detail/{id}', [OperatorProdiBookingController::class, 'detail'])->middleware(['auth', 'opt_prodi']);
+Route::post('/operator-prodi/rooms/reservasi/delete/{id}', [OperatorProdiBookingController::class, 'delete']);
 
 require __DIR__ . '/auth.php';

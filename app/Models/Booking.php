@@ -13,14 +13,19 @@ class Booking extends Model
     protected $table = 'booking_tbl';
     protected $fillable = [
         'room_id',
-        'username_mahasiswa',
+        'student_nim',
         'booking_date',
         'time_slot_id',
+        'student_id_prodi',
         'username_penguji_1',
         'username_penguji_2',
         'username_sekretaris',
         'username_ketua',
-        'start',
-        'end',
+        'link_nota',
+        // 'start',
+        // 'end',
+        'time_slot_id',
+        'student_name',
+        'id_prodi',
     ];
 }
