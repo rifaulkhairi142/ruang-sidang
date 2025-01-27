@@ -77,14 +77,14 @@ const Welcome = ({ data }) => {
                     >
                         <MdOutlineMeetingRoom className="text-primary text-2xl" />
                     </CardDataStats>
-                    <CardDataStats
+                    {/* <CardDataStats
                         title="Total Pending Approval"
                         total={data?.total_pending_approval}
                         rate="23%"
                         levelUp
                     >
                         <MdOutlineAssessment className="text-primary text-2xl" />
-                    </CardDataStats>
+                    </CardDataStats> */}
                     <CardDataStats
                         title="Total Reservation"
                         total={data?.total_reservation}

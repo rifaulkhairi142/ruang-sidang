@@ -21,7 +21,7 @@ class Dashboard extends Controller
     public function index()
     {
         $data = [];
-        $data['total_user'] = User::where('role', 'student')->count();
+        $data['total_user'] = User::all()->count();
         $data['total_dosen'] = Dosen::all()->count();
         $data['total_rooms'] = RoomModel::all()->count();
         $data['total_pending_approval'] = Mahasiswa::where('status', '1')->count();

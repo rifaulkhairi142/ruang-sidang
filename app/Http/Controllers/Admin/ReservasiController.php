@@ -21,8 +21,9 @@ class ReservasiController extends Controller
             ? Carbon::parse($request->booking_date)->setTimezone('Asia/Jakarta')->format('Y-m-d')
             : null;
 
-        $query = Booking::join('users as us', 'booking_tbl.username_mahasiswa', '=', 'us.username')
-            ->join('data_ruang_tbl as dt_ruang', 'booking_tbl.room_id', '=', 'dt_ruang.id');
+        $query = Booking::join('users as us', 'booking_tbl.student_nim', '=', 'us.username')
+            ->join('data_ruang_tbl as dt_ruang', 'booking_tbl.room_id', '=', 'dt_ruang.id')
+            ->join('data_waktu_tbl as w_tbl', 'booking_tbl.time_slot_id', '=', 'w_tbl.id');
 
         if ($request->has('search_key') && !empty($request->search_key)) {
             $query->where(function ($subQuery) use ($request) {
@@ -40,7 +41,7 @@ class ReservasiController extends Controller
                     us.username as nim,
                     dt_ruang.name as nama_ruang,
                     booking_tbl.booking_date,
-                    CONCAT(booking_tbl.start, " s.d ", booking_tbl.end) as jam'
+                    CONCAT(w_tbl.start, " s.d ", w_tbl.end) as jam'
         );
         $data = $query->paginate(10);
 

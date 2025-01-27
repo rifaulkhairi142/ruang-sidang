@@ -160,12 +160,12 @@ export default function Login({ status, canResetPassword }) {
                     </div>
 
                     <div className="flex items-center justify-end mt-4">
-                        <Link
+                        {/* <Link
                             href="/register"
                             className=" text-sm text-yellow-600 hover:text-yellow-600/50 rounded-md "
                         >
                             Daftar Sebagai Mahasiswa
-                        </Link>
+                        </Link> */}
 
                         <PrimaryButton className="ms-4" disabled={processing}>
                             Log in

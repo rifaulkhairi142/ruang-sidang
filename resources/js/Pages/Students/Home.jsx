@@ -94,12 +94,12 @@ const Home = ({ base_url, message }) => {
     return (
         <StudentLayout>
             <Head title="Home" />
-            <div className="bg-white px-10 rounded-xl flex flex-col gap-y-3 ">
-                <h1 className="text-lg font-semibold font-satoshi text-green">
-                    Booking Ruangan
+            <div className="bg-white px-10 py-3 border flex flex-col gap-y-3 ">
+                <h1 className="text-xl font-semibold font-satoshi ">
+                    List Jadwal Mahasiswa Sidang
                 </h1>
                 <hr />
-                <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                <div className="bg-white dark:bg-gray-800 relative overflow-hidden">
                     <div className="flex flex-col md:flex-col items-center justify-between gap-y-3 space-y-3 md:space-y-0 p-4">
                         <div className="flex items-center w-full">
                             <label for="simple-search" className="sr-only">

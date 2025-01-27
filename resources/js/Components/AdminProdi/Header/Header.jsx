@@ -1,7 +1,7 @@
 import React from "react";
 import DropdownUser from "./DropdownUser";
 import { Link } from "@inertiajs/react";
-import LogoIcon from "../../../../../public/images/logo/logo-icon.svg";
+import LogoIcon from "../../../../../public/images/logo/Lambang_UIN_Ar-Raniry.png";
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
     return (
@@ -52,7 +52,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                     {/* <!-- Hamburger Toggle BTN --> */}
 
                     <Link className="block flex-shrink-0 lg:hidden" href="#">
-                        <img src={LogoIcon} alt="Logo" />
+                        <img src={LogoIcon} alt="Logo" className="w-20" />
                     </Link>
                 </div>
 

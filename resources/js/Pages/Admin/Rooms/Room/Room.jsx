@@ -53,6 +53,7 @@ const Room = ({ base_url, message, props }) => {
             const response = await axios.get(
                 `${base_url}/api/admin/rooms?page=${currentPage}&search_key=${searchKey}`
             );
+            console.log(response);
             setDataRuang(response.data);
             setCurrentPage(response.data.current_page);
             setLastPage(response.data.last_page);
@@ -123,7 +124,7 @@ const Room = ({ base_url, message, props }) => {
                             <h2 className="text-2xl font-semibold">Rooms</h2>
                             <ul className="flex gap-x-3">
                                 <li className="cursor-pointer">Dashboard</li>
-                                <li>{">"}</li>
+                                <li>{"/"}</li>
                                 <li className="text-primary2-600">Rooms</li>
                             </ul>
                         </div>
@@ -236,7 +237,7 @@ const Room = ({ base_url, message, props }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {dataRuang?.c?.map((item, index) => (
+                                        {dataRuang?.data?.map((item, index) => (
                                             <tr
                                                 key={index}
                                                 className="border-b dark:border-gray-700"
