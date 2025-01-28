@@ -7,9 +7,9 @@ const StudentLayout = ({ children }) => {
 
     return (
         // <div className="dark:bg-boxdark-2 bg-white/70 dark:text-bodydark">
-        <div className="dark:bg-boxdark-2 font-satoshi dark:text-bodydark">
+        <div className="dark:bg-boxdark-2 font-satoshi bg-white/80 dark:text-bodydark">
             {/* <!-- ===== Page Wrapper Start ===== --> */}
-            <div className="flex relative h-screen overflow-hidden">
+            <div className="flex flex-col relative h-screen overflow-hidden">
                 {/* <!-- ===== Content Area Start ===== --> */}
                 <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
                     {/* <!-- ===== Header Start ===== --> */}
@@ -28,8 +28,10 @@ const StudentLayout = ({ children }) => {
                     </main>
                     {/* <!-- ===== Main Content End ===== --> */}
                 </div>
+
                 {/* <!-- ===== Content Area End ===== --> */}
             </div>
+
             {/* <!-- ===== Page Wrapper End ===== --> */}
         </div>
     );

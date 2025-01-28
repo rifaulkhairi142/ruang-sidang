@@ -2,7 +2,7 @@ import ClickOutside from "@/Components/ClickOutside";
 import { Link, router, usePage } from "@inertiajs/react";
 import React, { useState } from "react";
 
-import UserOne from "../../../../../public/images/user/user-01.png";
+import UserOne from "../../../../../public/images/user/user.png";
 
 const DropdownUser = ({ auth }) => {
     const [dropdownOpen, setDropdownOpen] = useState(false);

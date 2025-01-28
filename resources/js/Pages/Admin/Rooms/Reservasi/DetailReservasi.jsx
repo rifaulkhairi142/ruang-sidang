@@ -4,8 +4,9 @@ import { TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React, { useState } from "react";
+import { RiAttachment2 } from "react-icons/ri";
 
-const DetailReservasi = ({ booking }) => {
+const DetailReservasi = ({ booking, base_url }) => {
     const [name, setName] = useState(booking?.name || null);
 
     return (
@@ -54,7 +55,34 @@ const DetailReservasi = ({ booking }) => {
                                                 NIM
                                             </td>
                                             <td className="align-top text-left">
-                                                {booking?.username_mahasiswa}
+                                                {booking?.student_nim}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className="align-top text-right pr-3">
+                                                Prodi
+                                            </td>
+                                            <td className="align-top text-left">
+                                                {booking?.nama_prodi}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className="align-top text-right pr-3">
+                                                Nota
+                                            </td>
+                                            <td className="align-top text-left">
+                                                {booking?.link_nota && (
+                                                    <a
+                                                        href={`${base_url}/storage/${booking.link_nota}`}
+                                                        target="_blank"
+                                                        className="font-normal flex items-center gap-x-2 bg-primary2-400 text-white w-fit px-3 py-1 rounded-md cursor-pointer"
+                                                    >
+                                                        {booking.link_nota
+                                                            .split("/")
+                                                            .pop()}
+                                                        <RiAttachment2 className="text-lg" />
+                                                    </a>
+                                                )}
                                             </td>
                                         </tr>
                                     </tbody>

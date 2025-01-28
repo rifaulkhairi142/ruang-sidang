@@ -14,7 +14,7 @@ const Welcome = ({ data }) => {
             <div className="flex flex-col gap-y-3">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     <CardDataStats
-                        title="Total Students"
+                        title="Total Users"
                         total={data?.total_user}
                         rate="0.95%"
                         levelDown

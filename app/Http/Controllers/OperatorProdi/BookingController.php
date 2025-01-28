@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\Dosen;
 use App\Models\Prodi;
 use App\Models\RoomModel;
+use App\Models\User;
 use App\Models\WaktuModel;
 use Carbon\Carbon;
 use Exception;
@@ -22,8 +23,10 @@ class BookingController extends Controller
     public function index()
     {
 
+
         return Inertia::render('AdminProdi/Rooms/Reservasi/Reservasi', [
-            'base_url' => url('/')
+            'base_url' => url('/'),
+
         ]);
     }
     public function delete($id)
@@ -47,34 +50,40 @@ class BookingController extends Controller
     }
     public function detail($id)
     {
-        $booking = Booking::where('booking_tbl.id', $id)
-            ->join('data_ruang_tbl as dtr_tbl', 'booking_tbl.room_id', '=', 'dtr_tbl.id')
-            ->join('prodi_tbl as prd_tbl', 'booking_tbl.student_id_prodi', '=', 'prd_tbl.id')
-            ->join('data_waktu_tbl as dtw_tbl', 'booking_tbl.time_slot_id', '=', 'dtw_tbl.id')
-            ->selectRaw(
-                'ROW_NUMBER() OVER (ORDER BY booking_tbl.id) AS row_index,
-                booking_tbl.id,
-                booking_tbl.student_name as name,
-                booking_tbl.student_nim as nim,
-                prd_tbl.name as nama_prodi,
-                dtr_tbl.name as nama_ruang,
-                booking_tbl.booking_date,
-                CONCAT(dtw_tbl.start, " s.d ", dtw_tbl.end) as jam,
-                (SELECT name FROM dosen_tbl WHERE dosen_tbl.nip = booking_tbl.username_ketua) AS nama_ketua,
-                booking_tbl.username_ketua,
-                (SELECT name FROM dosen_tbl WHERE dosen_tbl.nip = booking_tbl.username_sekretaris) AS nama_sekretaris,
-                booking_tbl.username_sekretaris,
-                (SELECT name FROM dosen_tbl WHERE dosen_tbl.nip = booking_tbl.username_penguji_1) AS nama_penguji1,
-                booking_tbl.username_penguji_1,
-                (SELECT name FROM dosen_tbl WHERE dosen_tbl.nip = booking_tbl.username_penguji_2) AS nama_penguji2,
-                booking_tbl.username_penguji_2,
-                booking_tbl.link_nota'
-            )->first();
+        $booking = Booking::fromSub(function ($query) {
+            $query->from('booking_tbl')
+                ->join('data_ruang_tbl as dtr_tbl', 'booking_tbl.room_id', '=', 'dtr_tbl.id')
+                ->join('prodi_tbl as prd_tbl', 'booking_tbl.student_id_prodi', '=', 'prd_tbl.id')
+                ->join('data_waktu_tbl as dtw_tbl', 'booking_tbl.time_slot_id', '=', 'dtw_tbl.id')
+                ->selectRaw('
+                    booking_tbl.id,
+                    booking_tbl.student_name as name,
+                    booking_tbl.student_nim as nim,
+                    prd_tbl.name as nama_prodi,
+                    dtr_tbl.name as nama_ruang,
+                    booking_tbl.booking_date,
+                    CONCAT(dtw_tbl.start, " s.d ", dtw_tbl.end) as jam,
+                    (SELECT name FROM dosen_tbl WHERE dosen_tbl.nip = booking_tbl.username_ketua) AS nama_ketua,
+                    booking_tbl.username_ketua,
+                    (SELECT name FROM dosen_tbl WHERE dosen_tbl.nip = booking_tbl.username_sekretaris) AS nama_sekretaris,
+                    booking_tbl.username_sekretaris,
+                    (SELECT name FROM dosen_tbl WHERE dosen_tbl.nip = booking_tbl.username_penguji_1) AS nama_penguji1,
+                    booking_tbl.username_penguji_1,
+                    (SELECT name FROM dosen_tbl WHERE dosen_tbl.nip = booking_tbl.username_penguji_2) AS nama_penguji2,
+                    booking_tbl.username_penguji_2,
+                    booking_tbl.link_nota,
+                    ROW_NUMBER() OVER (ORDER BY booking_tbl.booking_date DESC) AS row_index
+                ');
+        }, 'subquery')
+            ->where('id', $id)
+            ->first();
+
         return Inertia::render('AdminProdi/Rooms/Reservasi/DetailReservasi', [
             'base_url' => url('/'),
             'booking' => $booking
         ]);
     }
+
 
     public function all(Request $request)
     {
@@ -97,7 +106,7 @@ class BookingController extends Controller
             $query->where('booking_tbl.booking_date', $booking_date);
         }
         $query->selectRaw(
-            'ROW_NUMBER() OVER (ORDER BY booking_tbl.id) AS row_index,
+            'ROW_NUMBER() OVER (ORDER BY booking_tbl.booking_date DESC) AS row_index,
                 booking_tbl.id,
                 booking_tbl.student_name as name,
                 booking_tbl.student_nim as nim,

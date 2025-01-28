@@ -5,7 +5,7 @@ import LogoIcon from "../../../../../public/images/logo/Lambang_UIN_Ar-Raniry.pn
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
     return (
-        <header className="sticky top-0 z-999 flex bg-white border w-full border  backdrop-blur-sm dark:bg-boxdark dark:drop-shadow-none">
+        <header className="sticky top-0 z-999 flex bg-black w-full border  backdrop-blur-sm dark:bg-boxdark dark:drop-shadow-none">
             <div className="flex flex-grow items-center justify-between px-4 ">
                 <div
                     className="flex items-center cursor-pointer"

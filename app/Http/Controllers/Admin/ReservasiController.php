@@ -21,24 +21,26 @@ class ReservasiController extends Controller
             ? Carbon::parse($request->booking_date)->setTimezone('Asia/Jakarta')->format('Y-m-d')
             : null;
 
-        $query = Booking::join('users as us', 'booking_tbl.student_nim', '=', 'us.username')
-            ->join('data_ruang_tbl as dt_ruang', 'booking_tbl.room_id', '=', 'dt_ruang.id')
-            ->join('data_waktu_tbl as w_tbl', 'booking_tbl.time_slot_id', '=', 'w_tbl.id');
+        $query = Booking::join('data_ruang_tbl as dt_ruang', 'booking_tbl.room_id', '=', 'dt_ruang.id')
+            ->join('data_waktu_tbl as w_tbl', 'booking_tbl.time_slot_id', '=', 'w_tbl.id')
+            ->join('prodi_tbl as p_tbl', 'booking_tbl.student_id_prodi', '=', 'p_tbl.id');
 
         if ($request->has('search_key') && !empty($request->search_key)) {
             $query->where(function ($subQuery) use ($request) {
-                $subQuery->where('us.name', 'like', '%' . $request->search_key . '%')
-                    ->orWhere('dt_ruang.name', 'like', '%' . $request->search_key . '%');
+                $subQuery->where('booking_tbl.student_name', 'like', '%' . $request->search_key . '%')
+                    ->orWhere('dt_ruang.name', 'like', '%' . $request->search_key . '%')
+                    ->orWhere('booking_tbl.student_nim', 'like', '%' . $request->search_key . '%')
+                    ->orWhere('p_tbl.name', 'like', '%' . $request->search_key . '%');
             });
         }
         if ($booking_date !== null) {
             $query->where('booking_tbl.booking_date', $booking_date);
         }
         $query->selectRaw(
-            'ROW_NUMBER() OVER (ORDER BY booking_tbl.id) AS row_index,
+            'ROW_NUMBER() OVER (ORDER BY booking_tbl.booking_date DESC) AS row_index,
                     booking_tbl.id,
-                    us.name as name,
-                    us.username as nim,
+                    booking_tbl.student_name as name,
+                    booking_tbl.student_nim as nim,
                     dt_ruang.name as nama_ruang,
                     booking_tbl.booking_date,
                     CONCAT(w_tbl.start, " s.d ", w_tbl.end) as jam'
@@ -57,7 +59,8 @@ class ReservasiController extends Controller
             ->selectRaw(
                 'booking_tbl.*,
                 (SELECT name FROM data_ruang_tbl WHERE id = booking_tbl.room_id) as nama_ruang,
-                (SELECT name FROM users WHERE username = booking_tbl.username_mahasiswa) as nama_mahasiswa,
+                (booking_tbl.student_name) as nama_mahasiswa,
+                (SELECT name from prodi_tbl WHERE prodi_tbl.id = booking_tbl.id) as nama_prodi,
                 (SELECT name FROM dosen_tbl WHERE dosen_tbl.nip = booking_tbl.username_ketua) as nama_ketua,
                 (SELECT name FROM dosen_tbl WHERE dosen_tbl.nip = booking_tbl.username_sekretaris) as nama_sekretaris,
                 (SELECT name FROM dosen_tbl WHERE dosen_tbl.nip = booking_tbl.username_penguji_1) as nama_penguji1,
@@ -67,7 +70,8 @@ class ReservasiController extends Controller
             ->first();
 
         return Inertia::render('Admin/Rooms/Reservasi/DetailReservasi', [
-            'booking' => $booking
+            'booking' => $booking,
+            'base_url' => url('/')
         ]);
     }
 

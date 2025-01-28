@@ -81,6 +81,6 @@ Route::get('/operator-prodi/dashboard', [DashboardController::class, 'index'])->
 Route::get('/operator-prodi/rooms/reservasi/add', [OperatorProdiBookingController::class, 'add'])->middleware(['auth', 'opt_prodi']);
 Route::get('/operator-prodi/rooms/reservasi', [OperatorProdiBookingController::class, 'index'])->middleware(['auth', 'opt_prodi']);
 Route::get('/operator-prodi/rooms/reservasi/detail/{id}', [OperatorProdiBookingController::class, 'detail'])->middleware(['auth', 'opt_prodi']);
-Route::post('/operator-prodi/rooms/reservasi/delete/{id}', [OperatorProdiBookingController::class, 'delete']);
+Route::post('/operator-prodi/rooms/reservasi/delete/{id}', [OperatorProdiBookingController::class, 'delete'])->middleware(['auth', 'opt_prodi']);
 
 require __DIR__ . '/auth.php';

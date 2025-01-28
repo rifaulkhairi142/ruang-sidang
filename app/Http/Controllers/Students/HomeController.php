@@ -15,12 +15,13 @@ class HomeController extends Controller
             ? Carbon::parse($request->booking_date)->setTimezone('Asia/Jakarta')->format('Y-m-d')
             : null;
 
-        $query = Booking::join('users as us', 'booking_tbl.username_mahasiswa', '=', 'us.username')
-            ->join('data_ruang_tbl as dt_ruang', 'booking_tbl.room_id', '=', 'dt_ruang.id');
+        $query = Booking::join('data_ruang_tbl as dt_ruang', 'booking_tbl.room_id', '=', 'dt_ruang.id')
+            ->join('prodi_tbl as p_tbl', 'booking_tbl.student_id_prodi', '=', 'p_tbl.id')
+            ->join('data_waktu_tbl as d_tbl', 'booking_tbl.time_slot_id', '=', 'd_tbl.id');
 
         if ($request->has('search_key') && !empty($request->search_key)) {
             $query->where(function ($subQuery) use ($request) {
-                $subQuery->where('us.name', 'like', '%' . $request->search_key . '%')
+                $subQuery->where('booking_tbl.student_name', 'like', '%' . $request->search_key . '%')
                     ->orWhere('dt_ruang.name', 'like', '%' . $request->search_key . '%');
             });
         }
@@ -28,13 +29,14 @@ class HomeController extends Controller
             $query->where('booking_tbl.booking_date', $booking_date);
         }
         $query->selectRaw(
-            'ROW_NUMBER() OVER (ORDER BY booking_tbl.id) AS row_index,
+            'ROW_NUMBER() OVER (ORDER BY booking_tbl.booking_date DESC) AS row_index,
                 booking_tbl.id,
-                us.name as name,
-                us.username as nim,
+                booking_tbl.student_name as name,
+                booking_tbl.student_nim as nim,
+                p_tbl.name as nama_prodi,
                 dt_ruang.name as nama_ruang,
                 booking_tbl.booking_date,
-                CONCAT(booking_tbl.start, " s.d ", booking_tbl.end) as jam'
+                CONCAT(d_tbl.start, " s.d ", d_tbl.end) as jam'
         );
         $data = $query->paginate(10);
 

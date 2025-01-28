@@ -40,6 +40,7 @@ const AddReservasi = ({
     data_dosen,
     data_waktu,
     data_ruang,
+    data_opt,
 }) => {
     const [dropdownOpen, setDropdownOpen] = useState(null);
     const dropdownRef = useRef(null);
@@ -57,7 +58,7 @@ const AddReservasi = ({
     const [penguji2, setPenguji2] = useState(null);
     const [sektretaris, setSektretaris] = useState(null);
     const [ketua, setKetua] = useState(null);
-    const [prodi, setProdi] = useState(null);
+    const [prodi, setProdi] = useState(data_opt.id_prodi);
     const [validation, setValidation] = useState({
         student_name: null,
         student_nim: null,
@@ -144,13 +145,14 @@ const AddReservasi = ({
         }
 
         try {
+            console.log(prodi);
             const formData = new FormData();
             formData.append("nota", payload.nota);
             formData.append("student_name", payload.student_name);
             formData.append("student_nim", payload.student_nim);
-            formData.append("student_id_prodi", payload.student_id_prodi);
+            formData.append("student_id_prodi", prodi);
             formData.append("booking_date", payload.booking_date);
-            formData.append("id_room", payload.id_room);
+            formData.append("room_id", payload.room_id);
             formData.append("time_slot_id", payload.time_slot_id);
             formData.append("username_penguji_1", payload.username_penguji_1);
             formData.append("username_penguji_2", payload.username_penguji_2);
@@ -158,14 +160,14 @@ const AddReservasi = ({
             formData.append("username_sekretaris", payload.username_sekretaris);
             const response = await axios.post(
                 `${base_url}/api/operator-prodi/booking/proceed`,
-                payload,
+                formData,
                 {
                     headers: { "Content-Type": "multipart/form-data" },
                 }
             );
             setData(response.data);
             if (response?.data?.status === "success") {
-                router.visit("/operator-prodi/dashboard");
+                router.visit("/operator-prodi/rooms/reservasi");
             }
         } catch (err) {
             setError(err.response?.data?.message || "Something went wrong");
@@ -264,7 +266,7 @@ const AddReservasi = ({
                                 <InputError message={validation.student_nim} />
                             )}
                         </div>
-                        <div>
+                        {/* <div>
                             <Autocomplete
                                 id="prodi"
                                 value={prodi}
@@ -296,7 +298,7 @@ const AddReservasi = ({
                                 )}
                                 fullWidth
                             />
-                        </div>
+                        </div> */}
                         <div>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                 <DatePicker
